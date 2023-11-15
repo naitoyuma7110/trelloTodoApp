@@ -1,6 +1,6 @@
 const TodoForm = (): JSX.Element => {
 	return (
-		<div className="w-80 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+		<div className="w-100 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
 			<div className="m-2">
 				<input
 					id="password"
