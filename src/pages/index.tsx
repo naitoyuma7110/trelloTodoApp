@@ -1,12 +1,13 @@
 import TodoForm from "@/components/Todo/todoForm";
 import TodoItemList from "@/components/Todo/TodoItemList";
+import { Todo } from "@/components/Todo/todoItem";
 
 // const todoItem = {
 // 	title: "タイトル",
 // 	content: "TODO内容はここに記載します。",
 // };
 
-const todoItemList = [
+const todoItemList: Todo[] = [
 	{
 		title: "タイトル",
 		content: "TODO内容はここに記載します。",

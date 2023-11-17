@@ -1,11 +1,11 @@
-import TodoItem, { TodoItemProps } from "./todoItem";
+import TodoItem, { Todo } from "./todoItem";
 
-type TodoItemListProps = {
-	data: Array<TodoItemProps>;
+export type TodoItemListProps = {
+	data: Array<Todo>;
 };
 
 const TodoItemList = (props: TodoItemListProps) => {
-	return props.data.map((todoItem: TodoItemProps, i) => {
+	return props.data.map((todoItem, i) => {
 		return <TodoItem key={i} {...todoItem} />;
 	});
 };

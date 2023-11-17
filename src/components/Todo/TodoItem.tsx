@@ -1,15 +1,14 @@
 import { FaCheckCircle } from "react-icons/fa";
-import { FaRegCheckCircle } from "react-icons/fa";
 
-type Status = "Done" | "Progress" | "Incomplete";
+export type Status = "Done" | "Progress" | "Incomplete" | "";
 
-export type TodoItemProps = {
+export type Todo = {
 	title: string;
 	content: string;
 	status: Status;
 };
 
-const TodoItem = (props: TodoItemProps): JSX.Element => {
+const TodoItem = (props: Todo): JSX.Element => {
 	// 状態に応じて各クラス名、テクストを取得する
 	let statusClassName = {
 		text: "",
