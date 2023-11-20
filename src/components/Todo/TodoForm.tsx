@@ -9,11 +9,16 @@ const TodoForm = (props: TodoFormProps): JSX.Element => {
 	const [formTodo, setFormTodo] = useState<Todo>({
 		title: "Hello",
 		content: "World",
-		status: "Done",
+		status: "Incomplete",
 	});
 
 	const handlerAddTodoOnclick = () => {
 		props.addTodoOnclick(formTodo);
+		setFormTodo({
+			title: "",
+			content: "",
+			status: "Incomplete",
+		});
 	};
 
 	const handlerTodoTitleFormOnChange = (
@@ -34,8 +39,6 @@ const TodoForm = (props: TodoFormProps): JSX.Element => {
 
 	return (
 		<div className="w-100 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
-			<p>{formTodo.title}</p>
-			<p>{formTodo.content}</p>
 			<form onSubmit={(e) => e.preventDefault()}>
 				<div className="m-2">
 					<label className="text-gray-400">タイトル</label>
