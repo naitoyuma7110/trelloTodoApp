@@ -31,12 +31,9 @@ const TodoListForm = (): JSX.Element => {
 			content: "TODO内容の4番目はDONE",
 			status: "Done",
 		},
-		{
-			title: "5番目のTODO",
-			content: "TODO内容の5番目はProgress",
-			status: "Progress",
-		},
 	]);
+
+	const statuses = ["All", "Incomplete", "Progress", "Done"];
 
 	const addTodoOnClick = (todo: Todo) => {
 		// const newTodoList = todoItemList.slice();
@@ -49,31 +46,23 @@ const TodoListForm = (): JSX.Element => {
 
 	return (
 		<>
-			<div className="flex">
-				<div className="mx-2 px-4 py-2 rounded-lg bg-gray-200">
-					<span className="inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white">
-						All
-					</span>
-					{todoItemList.map((todo, i) => {
-						return <TodoItem key={i} {...todo} />;
-					})}
-					<TodoForm addTodoOnclick={addTodoOnClick} />
-				</div>
-				{["Done", "Progress", "Incomplete"].map((status, i) => {
+			<div className={`grid grid-cols-${statuses.length}`}>
+				{statuses.map((status, i) => {
 					const filteredTodoList = todoItemList.filter(
-						(item) => (item.status as Status) === status
+						(item) => status === "All" || item.status === status
 					);
 
 					return (
 						<div key={i} className="mx-2 px-4 py-2 rounded-lg bg-gray-200">
-							<span
-								key={i}
-								className="inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white">
+							<span className="inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white">
 								{status}
 							</span>
 							{filteredTodoList.map((todo, j) => (
-								<TodoItem key={j} {...todo} />
+								<div key={j}>
+									<TodoItem {...todo} />
+								</div>
 							))}
+							{status === "All" && <TodoForm addTodoOnclick={addTodoOnClick} />}
 						</div>
 					);
 				})}
