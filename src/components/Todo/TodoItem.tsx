@@ -1,3 +1,6 @@
+import { FC } from "react";
+import { CSS } from "@dnd-kit/utilities";
+import { useSortable } from "@dnd-kit/sortable";
 import { FaCheckCircle } from "react-icons/fa";
 import { TbProgress } from "react-icons/tb";
 import { RiZzzFill } from "react-icons/ri";
@@ -5,18 +8,31 @@ import { RiZzzFill } from "react-icons/ri";
 export type Status = "Done" | "Progress" | "Incomplete";
 
 export type Todo = {
+	id: number;
 	title: string;
 	content: string;
 	status: Status;
 };
 
-const TodoItem = (props: Todo): JSX.Element => {
+const TodoItem = (props: Todo) => {
+	const { attributes, listeners, setNodeRef, transform, transition } =
+		useSortable({
+			id: props.id,
+		});
+
 	// 状態に応じて各クラス名、テキスト、アイコンを取得する
 	let statusValues = {
 		text: "",
 		textColor: "",
 		bgColor: "",
-		iconDom: <p>Task is in progress...</p>,
+		iconDom: <></>,
+	};
+
+	const style = {
+		cursor: "move",
+		listStyle: "none",
+		transform: CSS.Transform.toString(transform),
+		transition,
 	};
 
 	switch (props.status) {
@@ -47,23 +63,27 @@ const TodoItem = (props: Todo): JSX.Element => {
 	}
 
 	return (
-		<div className="flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
-			<div
-				className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>
-				{statusValues.iconDom}
-			</div>
+		<div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+			<div className="flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+				<div
+					className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>
+					{statusValues.iconDom}
+				</div>
 
-			<div className="px-4 p-2 w-full">
-				<div className="px-1">
-					<div className="flex justify-start">
-						<span className="me-2 flex-auto text-gray-700">{props.title}</span>
-						<span className={`font-semibold  ${statusValues.textColor}`}>
-							{statusValues.text}
+				<div className="px-4 p-2 w-full">
+					<div className="px-1">
+						<div className="flex justify-start">
+							<span className="me-2 flex-auto text-gray-700">
+								{props.title}
+							</span>
+							<span className={`font-semibold  ${statusValues.textColor}`}>
+								{statusValues.text}
+							</span>
+						</div>
+						<span className="text-sm  text-gray-600 dark:text-gray-200">
+							{props.content}
 						</span>
 					</div>
-					<span className="text-sm  text-gray-600 dark:text-gray-200">
-						{props.content}
-					</span>
 				</div>
 			</div>
 		</div>

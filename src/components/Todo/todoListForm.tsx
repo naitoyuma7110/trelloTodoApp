@@ -1,33 +1,51 @@
 import React, { useState } from "react";
-import styles from "./todo.module.css";
+import {
+	DndContext,
+	closestCenter,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	DragEndEvent,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import TodoItem, { Todo } from "./todoItem";
 import TodoForm from "./todoForm";
-import { Status } from "./todoItem";
 
 const TodoListForm = (): JSX.Element => {
 	const [todoItemList, setTodoList] = useState<Todo[]>([
 		{
+			id: 1,
 			title: "タイトル",
 			content: "TODO内容はここに記載します。",
 			status: "Done",
 		},
 		{
+			id: 2,
 			title: "タイトル2",
 			content: "TODO内容の二番目",
 			status: "Progress",
 		},
 		{
+			id: 3,
 			title: "タイトル3",
 			content: "TODO内容の3番目",
 			status: "Incomplete",
 		},
 		{
-			title: "Incompleteを挟んで",
+			id: 4,
+			title: "4番目",
 			content: "差し込みIncomplete",
 			status: "Incomplete",
 		},
 		{
-			title: "4番目のTODO",
+			id: 5,
+			title: "5番目のTODO",
 			content: "TODO内容の4番目はDONE",
 			status: "Done",
 		},
@@ -35,8 +53,28 @@ const TodoListForm = (): JSX.Element => {
 
 	const statuses = ["All", "Incomplete", "Progress", "Done"];
 
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		})
+	);
+
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+
+		if (!over) {
+			return;
+		}
+
+		if (active.id !== over.id) {
+			const oldIndex = todoItemList.findIndex((v) => v.id === active.id);
+			const newIndex = todoItemList.findIndex((v) => v.id === over.id);
+			setTodoList(arrayMove(todoItemList, oldIndex, newIndex));
+		}
+	};
+
 	const addTodoOnClick = (todo: Todo) => {
-		// const newTodoList = todoItemList.slice();
 		const newTodoList = [...todoItemList];
 
 		newTodoList.push(todo);
@@ -57,11 +95,21 @@ const TodoListForm = (): JSX.Element => {
 							<span className="inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white">
 								{status}
 							</span>
-							{filteredTodoList.map((todo, j) => (
-								<div key={j}>
-									<TodoItem {...todo} />
-								</div>
-							))}
+							<DndContext
+								sensors={sensors}
+								collisionDetection={closestCenter}
+								onDragEnd={handleDragEnd}
+								key={i}>
+								<SortableContext
+									items={todoItemList}
+									strategy={verticalListSortingStrategy}>
+									{filteredTodoList.map((todo, j) => (
+										<div key={j}>
+											<TodoItem key={todo.id} {...todo} />
+										</div>
+									))}
+								</SortableContext>
+							</DndContext>
 							{status === "All" && <TodoForm addTodoOnclick={addTodoOnClick} />}
 						</div>
 					);
