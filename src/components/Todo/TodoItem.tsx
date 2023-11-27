@@ -14,10 +14,15 @@ export type Todo = {
 	status: Status;
 };
 
-const TodoItem = (props: Todo) => {
+type TodoItemProps = {
+	todo: Todo;
+	isSortable?: boolean;
+};
+
+const TodoItem = (props: TodoItemProps) => {
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({
-			id: props.id,
+			id: props.todo.id,
 		});
 
 	// 状態に応じて各クラス名、テキスト、アイコンを取得する
@@ -29,13 +34,11 @@ const TodoItem = (props: Todo) => {
 	};
 
 	const style = {
-		cursor: "move",
-		listStyle: "none",
 		transform: CSS.Transform.toString(transform),
 		transition,
 	};
 
-	switch (props.status) {
+	switch (props.todo.status) {
 		case "Done":
 			statusValues.text = "完了";
 			statusValues.textColor = "text-emerald-500";
@@ -63,7 +66,11 @@ const TodoItem = (props: Todo) => {
 	}
 
 	return (
-		<div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+		<div
+			ref={setNodeRef}
+			{...attributes}
+			{...listeners}
+			style={props.isSortable ? style : { cursor: "default" }}>
 			<div className="flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
 				<div
 					className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>
@@ -74,14 +81,14 @@ const TodoItem = (props: Todo) => {
 					<div className="px-1">
 						<div className="flex justify-start">
 							<span className="me-2 flex-auto text-gray-700">
-								{props.title}
+								{props.todo.title}
 							</span>
 							<span className={`font-semibold  ${statusValues.textColor}`}>
 								{statusValues.text}
 							</span>
 						</div>
 						<span className="text-sm  text-gray-600 dark:text-gray-200">
-							{props.content}
+							{props.todo.content}
 						</span>
 					</div>
 				</div>

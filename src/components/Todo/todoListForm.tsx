@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
 	DndContext,
 	closestCenter,
@@ -51,7 +51,12 @@ const TodoListForm = (): JSX.Element => {
 		},
 	]);
 
-	const statuses = ["All", "Incomplete", "Progress", "Done"];
+	const [statuses, setStatuses] = useState([
+		"All",
+		"Incomplete",
+		"Progress",
+		"Done",
+	]);
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -62,6 +67,9 @@ const TodoListForm = (): JSX.Element => {
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
+
+		console.log(over ? `over.id is ${over.id}` : "そこには何もありません");
+		console.log("active id is " + active.id);
 
 		if (!over) {
 			return;
@@ -77,6 +85,7 @@ const TodoListForm = (): JSX.Element => {
 	const addTodoOnClick = (todo: Todo) => {
 		const newTodoList = [...todoItemList];
 
+		todo.id = newTodoList.length + 1;
 		newTodoList.push(todo);
 		setTodoList(newTodoList);
 		console.log("追加");
@@ -84,7 +93,7 @@ const TodoListForm = (): JSX.Element => {
 
 	return (
 		<>
-			<div className={`grid grid-cols-${statuses.length}`}>
+			<div className={`grid grid-cols-${statuses.length} grid-cols-4`}>
 				{statuses.map((status, i) => {
 					const filteredTodoList = todoItemList.filter(
 						(item) => status === "All" || item.status === status
@@ -95,21 +104,28 @@ const TodoListForm = (): JSX.Element => {
 							<span className="inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white">
 								{status}
 							</span>
-							<DndContext
-								sensors={sensors}
-								collisionDetection={closestCenter}
-								onDragEnd={handleDragEnd}
-								key={i}>
-								<SortableContext
-									items={todoItemList}
-									strategy={verticalListSortingStrategy}>
-									{filteredTodoList.map((todo, j) => (
-										<div key={j}>
-											<TodoItem key={todo.id} {...todo} />
-										</div>
-									))}
-								</SortableContext>
-							</DndContext>
+
+							{status !== "All" ? (
+								<>
+									<DndContext
+										sensors={sensors}
+										collisionDetection={closestCenter}
+										onDragEnd={handleDragEnd}>
+										{filteredTodoList.map((todo, j) => (
+											<SortableContext
+												key={todo.id}
+												items={todoItemList}
+												strategy={verticalListSortingStrategy}>
+												<TodoItem todo={todo} isSortable />
+											</SortableContext>
+										))}
+									</DndContext>
+								</>
+							) : (
+								filteredTodoList.map((todo, j) => (
+									<TodoItem key={todo.id} todo={todo} />
+								))
+							)}
 							{status === "All" && <TodoForm addTodoOnclick={addTodoOnClick} />}
 						</div>
 					);
