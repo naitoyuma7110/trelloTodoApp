@@ -1,6 +1,6 @@
 import TodoForm from "@/components/Todo/todoForm";
-import TodoListForm from "@/components/Todo/todoListForm";
 import { Todo } from "@/components/Todo/todoItem";
+import TodoListForm from "../components/Todo/todoListForm";
 
 export default function Home() {
 	return (

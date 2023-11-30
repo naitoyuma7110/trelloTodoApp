@@ -108,6 +108,8 @@ export default function Dnd() {
 				}
 			});
 		});
+		console.log("Drag Over over id " + over?.id);
+		console.log("Drag Over active id " + active.id);
 	};
 
 	const handleDragEnd = (event: DragEndEvent) => {
@@ -133,6 +135,8 @@ export default function Dnd() {
 				});
 			});
 		}
+		console.log("Drag End over id " + over?.id);
+		console.log("Drag End active id " + active.id);
 	};
 
 	const sensors = useSensors(

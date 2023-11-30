@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
-import Card, { CardType } from "./Card";
+import Card, { CardType } from "../DndSample/card";
 
 export type ColumnType = {
 	id: string;

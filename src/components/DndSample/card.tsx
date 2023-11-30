@@ -7,7 +7,7 @@ export type CardType = {
 };
 
 const Card: FC<CardType> = ({ id, title }) => {
-	// useSortableに指定するidは一意になるよう設定する必要があります。s
+	// useSortableに指定するidは一意になるよう設定する必要があります。
 	const { attributes, listeners, setNodeRef, transform } = useSortable({
 		id: id,
 	});

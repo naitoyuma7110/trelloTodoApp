@@ -8,7 +8,7 @@ import { RiZzzFill } from "react-icons/ri";
 export type Status = "Done" | "Progress" | "Incomplete";
 
 export type Todo = {
-	id: number;
+	id: string;
 	title: string;
 	content: string;
 	status: Status;
@@ -71,7 +71,9 @@ const TodoItem = (props: TodoItemProps) => {
 			{...attributes}
 			{...listeners}
 			style={props.isSortable ? style : { cursor: "default" }}>
-			<div className="flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+			<div
+				id={props.todo.id}
+				className="flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
 				<div
 					className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>
 					{statusValues.iconDom}
