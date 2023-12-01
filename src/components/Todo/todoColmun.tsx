@@ -4,25 +4,26 @@ import { Todo, Status } from "./todoItem";
 import TodoItem from "./todoItem";
 
 type TodoColmunProps = {
-	todoList: Todo[];
-	status: Status | "All";
+  todoList: Todo[];
+  status: Status | "All";
 };
 
 const TodoColmun = (props: TodoColmunProps) => {
-	const { setNodeRef } = useDroppable({ id: props.status });
+  const { setNodeRef } = useDroppable({ id: props.status });
 
-	return (
-		<SortableContext
-			id={props.status}
-			items={props.todoList}
-			strategy={rectSortingStrategy}>
-			<div ref={setNodeRef}>
-				{props.todoList.map((todo, i) => (
-					<TodoItem key={todo.id} todo={todo} isSortable />
-				))}
-			</div>
-		</SortableContext>
-	);
+  return (
+    <SortableContext
+      id={props.status}
+      items={props.todoList}
+      strategy={rectSortingStrategy}
+    >
+      <div ref={setNodeRef}>
+        {props.todoList.map((todo, i) => (
+          <TodoItem key={todo.id} todo={todo} isSortable />
+        ))}
+      </div>
+    </SortableContext>
+  );
 };
 
 export default TodoColmun;
