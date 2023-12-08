@@ -12,7 +12,7 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { Todo } from "./todoItem";
 import TodoColmun from "./todoColmun";
 import { Status } from "./todoItem";
-import TodoForm from "@/components/Todo/todoForm";
+import TodoForm from "@/components/Todo/TodoForm";
 
 const TodoListForm = (): JSX.Element => {
   const [todoItemList, setTodoList] = useState<Todo[]>([
