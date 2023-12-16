@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { decrease, increase } from '@/features/reduxSample/reducers/counterSlice'
 import { setUsers } from '@/features/reduxSample/reducers/userSlice'
-import { RootState } from '@/features/reduxSample/types/redux'
+import { RootState } from '@/features/reduxSample/types'
 
 const CounterChild = () => {
   const count = useSelector((state: RootState) => state.counter.count)

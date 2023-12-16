@@ -13,64 +13,13 @@ import { Todo, Status } from '@/features/todo/types'
 import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
 import TodoModal from '@/features/todo/components/todoModal'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/features/todo/types/index'
 
 const TodoListForm = (): JSX.Element => {
-  const [todoItemList, setTodoList] = useState<Todo[]>([
-    {
-      id: '1',
-      title: '長いタイトルタイトル',
-      content: 'TODO内容はここに記載します。',
-      status: 'Done',
-    },
-    {
-      id: '2',
-      title: 'タイトル2',
-      content: 'TODO内容の二番目',
-      status: 'Progress',
-    },
-    {
-      id: '3',
-      title: 'タイトル3',
-      content: 'TODO内容の3番目',
-      status: 'Incomplete',
-    },
-    {
-      id: '4',
-      title: '4番目',
-      content: '差し込みIncomplete',
-      status: 'Incomplete',
-    },
-    {
-      id: '5',
-      title: '5番目のTODO',
-      content: 'TODO内容の4番目はDONE',
-      status: 'Done',
-    },
-    {
-      id: '6',
-      title: '6番目のTODO',
-      content: 'TODO内容の4番目はDONE',
-      status: 'Done',
-    },
-    {
-      id: '7',
-      title: '7番目のTODO',
-      content: 'TODO内容の4番目はDONE',
-      status: 'Done',
-    },
-    {
-      id: '8',
-      title: '8番目のTODO',
-      content: 'TODO内容の4番目はDONE',
-      status: 'Done',
-    },
-    {
-      id: '9',
-      title: '9番目のTODO',
-      content: 'TODO内容の4番目はDONE',
-      status: 'Done',
-    },
-  ])
+  const todoList = useSelector((state: RootState) => state.todos.todos)
+
+  const [todoItemList, setTodoList] = useState<Todo[]>(todoList)
 
   const [statuses, setStatuses] = useState<Status[]>(['Incomplete', 'Progress', 'Done'])
 

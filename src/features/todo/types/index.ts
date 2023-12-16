@@ -6,3 +6,10 @@ export type Todo = {
 }
 
 export type Status = 'Done' | 'Progress' | 'Incomplete'
+
+export type RootState = {
+  todos: {
+    todos: Todo[]
+    setTodos: (todos: Todo[]) => void
+  }
+}
