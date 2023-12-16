@@ -1,7 +1,8 @@
 import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
-import { Todo, Status } from '@/components/Todo/todoItem'
-import TodoItem from '@/components/Todo/todoItem'
+import { Todo, Status } from '@/features/todo/types'
+import TodoItem from '@/features/todo/components/todoItem'
+import styles from '@/features/todo/styles/todo.module.css'
 
 type TodoColmunProps = {
   todoList: Todo[]

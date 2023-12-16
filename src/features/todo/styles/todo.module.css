@@ -1,0 +1,18 @@
+.todolist {
+  height: 100%;
+  max-height: 80vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.todolist::-webkit-scrollbar {
+  width: 10px;
+}
+.todolist::-webkit-scrollbar-track {
+  background-color: #ccc;
+  border-radius: 20px;
+}
+.todolist::-webkit-scrollbar-thumb {
+  background-color: #17585d;
+  border-radius: 20px;
+}

@@ -9,8 +9,8 @@ import {
   DragEndEvent,
 } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable'
-import TodoItem, { Todo } from '@/components/Todo/todoItem'
-import TodoForm from '@/components/Todo/todoForm'
+import TodoItem, { Todo } from '@/features/todo/components/todoItem'
+import TodoForm from '@/features/todo/components/todoForm'
 
 const TodoListFormSample = (): JSX.Element => {
   const [todoItemList, setTodoList] = useState<Todo[]>([

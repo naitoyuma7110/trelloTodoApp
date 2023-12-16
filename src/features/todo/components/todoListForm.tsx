@@ -9,11 +9,10 @@ import {
   closestCorners,
 } from '@dnd-kit/core'
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import { Todo } from '@/components/Todo/todoItem'
-import TodoColmun from '@/components/Todo/todoColmun'
-import { Status } from '@/components/Todo/todoItem'
-import TodoForm from '@/components/Todo/todoForm'
-import TodoModal from '@/components/Todo/todoModal'
+import { Todo, Status } from '@/features/todo/types'
+import TodoColmun from '@/features/todo/components/todoColmun'
+import TodoForm from '@/features/todo/components/todoForm'
+import TodoModal from '@/features/todo/components/todoModal'
 
 const TodoListForm = (): JSX.Element => {
   const [todoItemList, setTodoList] = useState<Todo[]>([
@@ -44,6 +43,30 @@ const TodoListForm = (): JSX.Element => {
     {
       id: '5',
       title: '5番目のTODO',
+      content: 'TODO内容の4番目はDONE',
+      status: 'Done',
+    },
+    {
+      id: '6',
+      title: '6番目のTODO',
+      content: 'TODO内容の4番目はDONE',
+      status: 'Done',
+    },
+    {
+      id: '7',
+      title: '7番目のTODO',
+      content: 'TODO内容の4番目はDONE',
+      status: 'Done',
+    },
+    {
+      id: '8',
+      title: '8番目のTODO',
+      content: 'TODO内容の4番目はDONE',
+      status: 'Done',
+    },
+    {
+      id: '9',
+      title: '9番目のTODO',
       content: 'TODO内容の4番目はDONE',
       status: 'Done',
     },

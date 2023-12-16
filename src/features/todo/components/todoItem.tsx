@@ -4,15 +4,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { FaCheckCircle } from 'react-icons/fa'
 import { TbProgress } from 'react-icons/tb'
 import { RiZzzFill } from 'react-icons/ri'
-
-export type Status = 'Done' | 'Progress' | 'Incomplete'
-
-export type Todo = {
-  id: string
-  title: string
-  content: string
-  status: Status
-}
+import { Todo } from '@/features/todo/types'
 
 type TodoItemProps = {
   todo: Todo

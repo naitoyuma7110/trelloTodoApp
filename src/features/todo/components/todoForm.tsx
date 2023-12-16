@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Todo } from '@/components/Todo/todoItem'
+import { Todo } from '@/features/todo/types'
 
 type TodoFormProps = {
   addTodoOnclick: (todo: Todo) => void
@@ -7,7 +7,7 @@ type TodoFormProps = {
 
 const TodoForm = (props: TodoFormProps): JSX.Element => {
   const [formTodo, setFormTodo] = useState<Todo>({
-    id: '0',
+    id: '',
     title: 'Hello',
     content: 'World',
     status: 'Incomplete',
@@ -16,7 +16,7 @@ const TodoForm = (props: TodoFormProps): JSX.Element => {
   const handlerAddTodoOnclick = () => {
     props.addTodoOnclick(formTodo)
     setFormTodo({
-      id: '0',
+      id: '',
       title: '',
       content: '',
       status: 'Incomplete',

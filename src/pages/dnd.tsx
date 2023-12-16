@@ -9,9 +9,9 @@ import {
   DragOverEvent,
 } from '@dnd-kit/core'
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import Column, { ColumnType } from '../components/DndSample/column'
+import Column, { ColumnType } from '@/features/dndSample/components/column'
 import { useState } from 'react'
-import '../components/DndSample/dnd.module.css'
+import '@/features/dndSample/components/dnd.module.css'
 
 export default function Dnd() {
   // 仮データを定義
