@@ -6,7 +6,7 @@ export const todoSlice = createSlice({
     todos: [
       {
         id: '1',
-        title: 'Reduxで取得',
+        title: 'Reduxで取得する長いタイトルのTodo',
         content: 'TODO内容はここに記載します。',
         status: 'Done',
       },
@@ -69,9 +69,12 @@ export const todoSlice = createSlice({
       newTodo.id = (state.todos.length + 1).toString()
       state.todos.push(newTodo)
     },
+    removeTodoById: (state, action) => {
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload)
+    },
   },
 })
 
-export const { setTodos, addTodo } = todoSlice.actions
+export const { setTodos, addTodo, removeTodoById } = todoSlice.actions
 
 export default todoSlice.reducer

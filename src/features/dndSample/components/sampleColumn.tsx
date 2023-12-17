@@ -2,11 +2,10 @@ import { FC } from 'react'
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable'
 import { useDroppable } from '@dnd-kit/core'
 import SampleTodo from '@/features/dndSample/components/sampleTodo'
-import { Todo, Status } from '../../../components/Todo/todoItem'
-import { Item } from '../../../pages/sample'
+import { Todo, Status } from '@/features/todo/types'
 
 type SampleColumnProps = {
-  todos: Item[]
+  todos: Todo[]
   status: Status
 }
 
