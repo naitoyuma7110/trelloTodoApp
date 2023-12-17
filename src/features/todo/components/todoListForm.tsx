@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   DndContext,
   KeyboardSensor,
@@ -17,9 +17,12 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/features/todo/types/index'
 
 const TodoListForm = (): JSX.Element => {
-  const todoList = useSelector((state: RootState) => state.todos.todos)
+  const todos = useSelector((state: RootState) => state.todos.todos)
+  useEffect(() => {
+    setTodoItemList(todos)
+  }, [todos])
 
-  const [todoItemList, setTodoList] = useState<Todo[]>(todoList)
+  const [todoItemList, setTodoItemList] = useState<Todo[]>(todos)
 
   const [statuses, setStatuses] = useState<Status[]>(['Incomplete', 'Progress', 'Done'])
 
@@ -36,14 +39,16 @@ const TodoListForm = (): JSX.Element => {
     }),
   )
 
+  /* 
   const handleAddTodoOnClick = (todo: Todo) => {
     const newTodoList = [...todoItemList]
 
     todo.id = (newTodoList.length + 1).toString()
     newTodoList.push(todo)
-    setTodoList(newTodoList)
+    setTodoItemList(newTodoList)
     console.log('追加')
   }
+  */
 
   const findColumn = (id: string | null) => {
     // この関数を使用するhandlerで取得したidが、カラムのidとドラッグアイテムのidである場合の両方を想定する
@@ -75,7 +80,7 @@ const TodoListForm = (): JSX.Element => {
       const updatedTodoList = todoItemList.map((todo) => {
         return todo.id === String(active.id) ? { ...todo, status: (overColumn as Status) || (overId as Status) } : todo
       })
-      setTodoList(updatedTodoList)
+      setTodoItemList(updatedTodoList)
     }
   }
 
@@ -95,7 +100,7 @@ const TodoListForm = (): JSX.Element => {
     if (active.id !== over.id) {
       const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
       const newIndex = todoItemList.findIndex((v) => v.id === over.id)
-      setTodoList(arrayMove(todoItemList, oldIndex, newIndex))
+      setTodoItemList(arrayMove(todoItemList, oldIndex, newIndex))
     }
   }
 
@@ -107,7 +112,7 @@ const TodoListForm = (): JSX.Element => {
             All
           </span>
           <TodoColmun status={'All'} todoList={todoItemList} />
-          <TodoForm addTodoOnclick={handleAddTodoOnClick} />
+          <TodoForm />
         </div>
         <DndContext
           sensors={sensors}

@@ -64,13 +64,14 @@ export const todoSlice = createSlice({
     setTodos: (state, action) => {
       state.todos = action.payload
     },
+    addTodo: (state, action) => {
+      const newTodo = action.payload
+      newTodo.id = (state.todos.length + 1).toString()
+      state.todos.push(newTodo)
+    },
   },
 })
 
-// PayloadAction使用してincrease,decreaseの戻り値型を定義
-export type CounterAction = PayloadAction<number>
-
-// counterSliceというReduxオブジェクトが生成される
-export const { setTodos } = todoSlice.actions
+export const { setTodos, addTodo } = todoSlice.actions
 
 export default todoSlice.reducer

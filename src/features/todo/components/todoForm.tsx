@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Todo } from '@/features/todo/types'
+import { useSelector, useDispatch } from 'react-redux'
+import { addTodo } from '@/features/todo/reducers/todoSlice'
 
-type TodoFormProps = {
-  addTodoOnclick: (todo: Todo) => void
-}
+type TodoFormProps = {}
 
 const TodoForm = (props: TodoFormProps): JSX.Element => {
+  const dispatch = useDispatch()
+
   const [formTodo, setFormTodo] = useState<Todo>({
     id: '',
     title: 'Hello',
@@ -14,7 +16,7 @@ const TodoForm = (props: TodoFormProps): JSX.Element => {
   })
 
   const handlerAddTodoOnclick = () => {
-    props.addTodoOnclick(formTodo)
+    dispatch(addTodo(formTodo))
     setFormTodo({
       id: '',
       title: '',
