@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-  closestCorners,
-} from '@dnd-kit/core'
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import { DndContext, useSensor, useSensors, DragEndEvent, closestCorners, MouseSensor } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 import { Todo, Status } from '@/features/todo/types'
 import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
 import TodoModal from '@/features/todo/components/todoModal'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setTodos } from '@/features/todo/reducers/todoSlice'
 import { RootState } from '@/features/todo/types/index'
 
 const TodoListForm = (): JSX.Element => {
+  const dispatch = useDispatch()
+
   const todos = useSelector((state: RootState) => state.todos.todos)
   useEffect(() => {
     setTodoItemList(todos)
@@ -28,53 +23,36 @@ const TodoListForm = (): JSX.Element => {
 
   const [isModalOpen, setIsModalopen] = useState(true)
 
+  const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }))
+
   const handleOpenModal = () => {
     setIsModalopen(true)
   }
 
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  )
-
-  /* 
-  const handleAddTodoOnClick = (todo: Todo) => {
-    const newTodoList = [...todoItemList]
-
-    todo.id = (newTodoList.length + 1).toString()
-    newTodoList.push(todo)
-    setTodoItemList(newTodoList)
-    console.log('追加')
-  }
-  */
-
   const findColumn = (id: string | null) => {
-    // この関数を使用するhandlerで取得したidが、カラムのidとドラッグアイテムのidである場合の両方を想定する
+    // この関数を使用するhandlerで取得したidが、カラムのidとドラッグアイテムのidの両方の場合を想定する
     if (!id) {
       return null
     }
     // colmuのidが返ってきた場合はそのまま返す
-    if (id === ('Incomplete' || 'Progress' || 'Done')) {
+    if (id == ('Incomplete' || 'Progress' || 'Done')) {
       return id
     }
-    // itemのidが渡された場合、itemもつカラムのidを返したい
+    // itemのidが渡された場合、そのitemをもつカラムのid(status)を返したい
     return todoItemList.find((todo) => todo.id === id)?.status
   }
 
   const handleDragOver = (event: DragEndEvent) => {
     const { active, over } = event
 
-    console.log('over')
-
+    // 位置が変わっていない場合
     if (!over || active.id === over.id) {
-      return
+      return null
     }
-
     const overId = String(over.id)
     const overColumn = findColumn(overId)
 
+    // Dragアイテムのidが別のアイテムidもしくはカラムidに対してoverされた場合
     if (active.id !== over.id) {
       // active.idからtodoを特定しstatusをcolumnのid(status)に変更する
       const updatedTodoList = todoItemList.map((todo) => {
@@ -82,25 +60,24 @@ const TodoListForm = (): JSX.Element => {
       })
       setTodoItemList(updatedTodoList)
     }
+
+    console.log(overColumn)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
 
-    console.log('end')
-
     if (!over || active.id === over.id) {
       return
     }
-
-    const overId = String(over.id)
-    const overColumn = findColumn(overId)
-
     // over先todoのidが異なればデータの入れ替えを行う
     if (active.id !== over.id) {
       const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
       const newIndex = todoItemList.findIndex((v) => v.id === over.id)
-      setTodoItemList(arrayMove(todoItemList, oldIndex, newIndex))
+
+      const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
+      // setTodoItemList(newTodos)
+      dispatch(setTodos(newTodos))
     }
   }
 
@@ -115,6 +92,7 @@ const TodoListForm = (): JSX.Element => {
           <TodoForm />
         </div>
         <DndContext
+          id={'unique-dnd-context-id'}
           sensors={sensors}
           collisionDetection={closestCorners}
           onDragOver={handleDragOver}
@@ -128,7 +106,7 @@ const TodoListForm = (): JSX.Element => {
                 <span className='inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white'>
                   {status}
                 </span>
-                <TodoColmun key={status} status={status} todoList={filteredTodoList} />
+                <TodoColmun status={status} todoList={filteredTodoList} />
               </div>
             )
           })}

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 export const todoSlice = createSlice({
   name: 'todos',
@@ -31,7 +31,7 @@ export const todoSlice = createSlice({
       {
         id: '5',
         title: '5番目のTODO',
-        content: 'TODO内容の4番目はDONE',
+        content: 'TODO内容の4番目はDONETODO内容の4番目はDONETODO内容の4番目はDONE',
         status: 'Done',
       },
       {
@@ -42,19 +42,25 @@ export const todoSlice = createSlice({
       },
       {
         id: '7',
-        title: '7番目のTODO',
-        content: 'TODO内容の4番目はDONE',
-        status: 'Done',
+        title: 'タイトル3',
+        content: 'TODO内容の3番目',
+        status: 'Incomplete',
       },
       {
         id: '8',
-        title: '8番目のTODO',
-        content: 'TODO内容の4番目はDONE',
-        status: 'Done',
+        title: '4番目',
+        content: '差し込みIncomplete',
+        status: 'Incomplete',
       },
       {
         id: '9',
-        title: '9番目のTODO',
+        title: '5番目のTODO',
+        content: 'TODO内容の4番目はDONETODO内容の4番目はDONETODO内容の4番目はDONE',
+        status: 'Done',
+      },
+      {
+        id: '10',
+        title: '6番目のTODO',
         content: 'TODO内容の4番目はDONE',
         status: 'Done',
       },
@@ -70,7 +76,14 @@ export const todoSlice = createSlice({
       state.todos.push(newTodo)
     },
     removeTodoById: (state, action) => {
-      state.todos = state.todos.filter((todo) => todo.id !== action.payload)
+      const newTodos = state.todos.filter((todo) => todo.id !== action.payload)
+      // 番号を振りなおす
+      state.todos = newTodos.map((todo, index) => {
+        return {
+          ...todo,
+          id: (index + 1).toString(),
+        }
+      })
     },
   },
 })

@@ -13,8 +13,9 @@ const TodoColmun = (props: TodoColmunProps) => {
 
   return (
     <SortableContext id={props.status} items={props.todoList} strategy={rectSortingStrategy}>
-      <div ref={setNodeRef}>
-        {props.todoList.map((todo, i) => (
+      {/* paddingを付けて範囲を確保しないとDragイベント時にColumnIdが返らない */}
+      <div ref={setNodeRef} className='border bg-gray-100 rounded-lg'>
+        {props.todoList.map((todo) => (
           <TodoItem key={todo.id} todo={todo} isSortable />
         ))}
       </div>

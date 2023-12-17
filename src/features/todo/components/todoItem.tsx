@@ -65,6 +65,7 @@ const TodoItem = (props: TodoItemProps) => {
       <div
         id={props.todo.id}
         className='flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md hover:bg-gray-300'
+        onClick={(e) => console.log('Card Clicked')}
       >
         <div className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>{statusValues.iconDom}</div>
 
@@ -89,7 +90,7 @@ const TodoItem = (props: TodoItemProps) => {
                 {statusValues.state}
               </span>
             </div>
-            <span className='text-xs  text-gray-600 dark:text-gray-200'>{props.todo.content}</span>
+            <div className='text-xs my-1 line-clamp-2 text-gray-600'>{props.todo.content}</div>
           </div>
         </div>
       </div>
