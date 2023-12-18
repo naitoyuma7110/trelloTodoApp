@@ -6,10 +6,16 @@ export type Todo = {
 }
 
 export type Status = 'Done' | 'Progress' | 'Incomplete'
+export const Statuses: Status[] = ['Incomplete', 'Progress', 'Done']
 
 export type RootState = {
   todos: {
     todos: Todo[]
     setTodos: (todos: Todo[]) => void
+  }
+  modals: {
+    editModalIsOpen: boolean
+    confirmModalIsOpen: boolean
+    todo: Todo
   }
 }

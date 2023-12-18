@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { DndContext, useSensor, useSensors, DragEndEvent, closestCorners, MouseSensor } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { Todo, Status } from '@/features/todo/types'
+import { Todo, Status, Statuses } from '@/features/todo/types'
 import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
 import TodoModal from '@/features/todo/components/todoModal'
@@ -11,7 +11,6 @@ import { RootState } from '@/features/todo/types/index'
 
 const TodoListForm = (): JSX.Element => {
   const dispatch = useDispatch()
-
   const todos = useSelector((state: RootState) => state.todos.todos)
   useEffect(() => {
     setTodoItemList(todos)
@@ -19,15 +18,7 @@ const TodoListForm = (): JSX.Element => {
 
   const [todoItemList, setTodoItemList] = useState<Todo[]>(todos)
 
-  const [statuses, setStatuses] = useState<Status[]>(['Incomplete', 'Progress', 'Done'])
-
-  const [isModalOpen, setIsModalopen] = useState(true)
-
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }))
-
-  const handleOpenModal = () => {
-    setIsModalopen(true)
-  }
 
   const findColumn = (id: string | null) => {
     // この関数を使用するhandlerで取得したidが、カラムのidとドラッグアイテムのidの両方の場合を想定する
@@ -54,11 +45,16 @@ const TodoListForm = (): JSX.Element => {
 
     // Dragアイテムのidが別のアイテムidもしくはカラムidに対してoverされた場合
     if (active.id !== over.id) {
+      const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
+      const newIndex = todoItemList.findIndex((v) => v.id === over.id)
+
+      const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
       // active.idからtodoを特定しstatusをcolumnのid(status)に変更する
-      const updatedTodoList = todoItemList.map((todo) => {
+      const updatedTodoList = newTodos.map((todo) => {
         return todo.id === String(active.id) ? { ...todo, status: (overColumn as Status) || (overId as Status) } : todo
       })
-      setTodoItemList(updatedTodoList)
+      // setTodoItemList(updatedTodoList)
+      dispatch(setTodos(updatedTodoList))
     }
 
     console.log(overColumn)
@@ -83,7 +79,7 @@ const TodoListForm = (): JSX.Element => {
 
   return (
     <>
-      <div className={`grid grid-cols-${statuses.length} grid-cols-4`}>
+      <div className={`grid grid-cols-${Statuses.length} grid-cols-4`}>
         <div className='mx-2 px-4 py-2 rounded-lg bg-gray-200 '>
           <span className='inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white'>
             All
@@ -98,7 +94,7 @@ const TodoListForm = (): JSX.Element => {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          {statuses.map((status) => {
+          {Statuses.map((status) => {
             const filteredTodoList = todoItemList.filter((item) => item.status === status)
 
             return (
@@ -112,7 +108,7 @@ const TodoListForm = (): JSX.Element => {
           })}
         </DndContext>
       </div>
-      <TodoModal isOpen={isModalOpen} />
+      <TodoModal />
     </>
   )
 }

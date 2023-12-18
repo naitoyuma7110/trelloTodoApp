@@ -8,6 +8,7 @@ import { IoArchive } from 'react-icons/io5'
 import { Todo } from '@/features/todo/types'
 import { useDispatch } from 'react-redux'
 import { removeTodoById } from '../reducers/todoSlice'
+import { closeModal, openEditModal } from '../reducers/modalSlice'
 
 type TodoItemProps = {
   todo: Todo
@@ -17,9 +18,14 @@ type TodoItemProps = {
 const TodoItem = (props: TodoItemProps) => {
   const dispatch = useDispatch()
 
-  const handleRemoveOnClick = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
-    console.log(`OnClick id${id}`)
-    dispatch(removeTodoById(id))
+  const handleRemoveOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation()
+    dispatch(removeTodoById(props.todo.id))
+  }
+
+  const handleTodoOnClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    console.log(props.todo.id)
+    dispatch(openEditModal(props.todo))
   }
 
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -65,7 +71,7 @@ const TodoItem = (props: TodoItemProps) => {
       <div
         id={props.todo.id}
         className='flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md hover:bg-gray-300'
-        onClick={(e) => console.log('Card Clicked')}
+        onClick={handleTodoOnClick}
       >
         <div className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>{statusValues.iconDom}</div>
 
@@ -74,20 +80,20 @@ const TodoItem = (props: TodoItemProps) => {
             <div className='flex justify-start items-center'>
               <div className='flex-auto '>
                 <span className='text-sm text-gray-700'>{props.todo.title}</span>
+              </div>
+              <span className={`font-semibold text-sm whitespace-pre ${statusValues.textColor}`}>
+                {statusValues.state}
                 {props.todo.status === 'Done' && (
                   <button
                     type='button'
                     className='text-white bg-red-500  hover:bg-red-700  focus:ring-red-300 font-medium rounded-full text-xs p-1 ms-1 text-center items-center'
-                    onClick={(e) => handleRemoveOnClick(e, props.todo.id)}
+                    onClick={(e) => handleRemoveOnClick(e)}
                   >
                     <span>
                       <IoArchive />
                     </span>
                   </button>
                 )}
-              </div>
-              <span className={`font-semibold text-sm whitespace-pre ${statusValues.textColor}`}>
-                {statusValues.state}
               </span>
             </div>
             <div className='text-xs my-1 line-clamp-2 text-gray-600'>{props.todo.content}</div>
