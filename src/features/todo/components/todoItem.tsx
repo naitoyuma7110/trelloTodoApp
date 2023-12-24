@@ -35,6 +35,7 @@ const TodoItem = (props: TodoItemProps) => {
   // 状態に応じて各クラス名、テキスト、アイコンを取得する
   let statusValues = {
     state: '',
+    color: '',
     textColor: '',
     bgColor: '',
     iconDom: <></>,
@@ -48,20 +49,17 @@ const TodoItem = (props: TodoItemProps) => {
   switch (props.todo.status) {
     case 'Done':
       statusValues.state = '完了'
-      statusValues.textColor = 'text-emerald-500'
-      statusValues.bgColor = 'bg-emerald-500'
+      statusValues.color = 'green'
       statusValues.iconDom = <FaCheckCircle className='w-6 h-6 text-white fill-current' />
       break
     case 'Progress':
       statusValues.state = '対応中'
-      statusValues.textColor = 'text-blue-600'
-      statusValues.bgColor = 'bg-blue-600'
+      statusValues.color = 'blue'
       statusValues.iconDom = <TbProgress className='w-6 h-6 text-white fill-current' />
       break
     case 'Incomplete':
       statusValues.state = '未対応'
-      statusValues.textColor = 'text-gray-500'
-      statusValues.bgColor = 'bg-gray-600'
+      statusValues.color = 'gray'
       statusValues.iconDom = <RiZzzFill className='w-6 h-6 text-white fill-current' />
       break
   }
@@ -73,7 +71,9 @@ const TodoItem = (props: TodoItemProps) => {
         className='flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md hover:bg-gray-300'
         onClick={handleTodoOnClick}
       >
-        <div className={`flex items-center justify-center w-12 ${statusValues.bgColor}`}>{statusValues.iconDom}</div>
+        <div className={`flex items-center justify-center w-12 bg-${statusValues.color}-500`}>
+          {statusValues.iconDom}
+        </div>
 
         <div className='px-2 p-1 w-full'>
           <div className='px-1'>
@@ -81,7 +81,7 @@ const TodoItem = (props: TodoItemProps) => {
               <div className='flex-auto '>
                 <span className='text-sm text-gray-700'>{props.todo.title}</span>
               </div>
-              <span className={`font-semibold text-sm whitespace-pre ${statusValues.textColor}`}>
+              <span className={`font-semibold text-sm whitespace-pre text-${statusValues.color}-500`}>
                 {statusValues.state}
                 {props.todo.status === 'Done' && (
                   <button

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Select, Option } from '@material-tailwind/react'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { closeModal } from '../reducers/modalSlice'
 import { RootState, Status, Statuses, Todo } from '@/features/todo/types'
@@ -10,9 +12,6 @@ const TodoModal = () => {
   const dispatch = useDispatch()
   const isOpen = useSelector((state: RootState) => state.modals.editModalIsOpen)
   const editTodo = useSelector((state: RootState) => state.modals.todo)
-  // useEffect(() => {
-  //   setTodo(editTodo)
-  // }, [editTodo])
 
   const [todo, setTodo] = useState<Todo>(editTodo)
 
@@ -43,7 +42,7 @@ const TodoModal = () => {
   switch (todo.status) {
     case 'Done':
       styles.state = '完了'
-      styles.color = 'emerald'
+      styles.color = 'green'
       styles.iconDom = <FaCheckCircle className='w-6 h-6 text-white fill-current' />
       break
     case 'Progress':
@@ -63,7 +62,7 @@ const TodoModal = () => {
       {isOpen && (
         <>
           <div className='justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-            <div className='relative w-auto my-6 mx-auto max-w-md'>
+            <div className='relative w-1/2 my-6 mx-auto max-w-md'>
               {/*content*/}
               <div
                 className={`border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none ${
@@ -120,25 +119,13 @@ const TodoModal = () => {
                       type='button'
                       onClick={(e) => handleCloseModalOnClick(e)}
                     >
-                      Close
+                      キャンセル
                     </button>
                     <button
                       type='submit'
                       className=' text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                     >
-                      <svg
-                        className='me-1 -ms-1 w-5 h-5'
-                        fill='currentColor'
-                        viewBox='0 0 20 20'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path
-                          fill-rule='evenodd'
-                          d='M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z'
-                          clip-rule='evenodd'
-                        ></path>
-                      </svg>
-                      Add new product
+                      保存
                     </button>
                   </div>
                 </form>
