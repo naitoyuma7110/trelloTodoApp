@@ -36,8 +36,6 @@ const TodoItem = (props: TodoItemProps) => {
   let statusValues = {
     state: '',
     color: '',
-    textColor: '',
-    bgColor: '',
     iconDom: <></>,
   }
 
@@ -59,7 +57,7 @@ const TodoItem = (props: TodoItemProps) => {
       break
     case 'Incomplete':
       statusValues.state = '未対応'
-      statusValues.color = 'gray'
+      statusValues.color = 'blue-gray'
       statusValues.iconDom = <RiZzzFill className='w-6 h-6 text-white fill-current' />
       break
   }

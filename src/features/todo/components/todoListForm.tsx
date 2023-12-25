@@ -81,9 +81,6 @@ const TodoListForm = (): JSX.Element => {
     <>
       <div className={`grid grid-cols-${Statuses.length} grid-cols-4`}>
         <div className='mx-2 px-4 py-2 rounded-lg bg-gray-200 '>
-          <span className='inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white'>
-            All
-          </span>
           <TodoColmun status={'All'} todoList={todoItemList} />
           <TodoForm />
         </div>
@@ -99,9 +96,6 @@ const TodoListForm = (): JSX.Element => {
 
             return (
               <div key={status} className='mx-2 px-4 py-2 rounded-lg bg-gray-200'>
-                <span className='inline-flex items-center py-1.5 px-3 mb-1 rounded-full text-xs font-medium bg-gray-500 text-white'>
-                  {status}
-                </span>
                 <TodoColmun status={status} todoList={filteredTodoList} />
               </div>
             )
