@@ -70,6 +70,11 @@ export const todoSlice = createSlice({
     setTodos: (state, action) => {
       state.todos = action.payload
     },
+    updateTodo: (state, action) => {
+      const updateTodo = action.payload
+      const updatedTodos = state.todos.map((todo) => (todo.id === updateTodo.id ? { ...todo, ...updateTodo } : todo))
+      state.todos = updatedTodos
+    },
     addTodo: (state, action) => {
       const newTodo = action.payload
       newTodo.id = (state.todos.length + 1).toString()
@@ -88,6 +93,6 @@ export const todoSlice = createSlice({
   },
 })
 
-export const { setTodos, addTodo, removeTodoById } = todoSlice.actions
+export const { setTodos, updateTodo, addTodo, removeTodoById } = todoSlice.actions
 
 export default todoSlice.reducer
