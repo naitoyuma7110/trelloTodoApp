@@ -40,30 +40,6 @@ export const todoSlice = createSlice({
         content: 'TODO内容の4番目はDONE',
         status: 'Done',
       },
-      {
-        id: '7',
-        title: 'タイトル3',
-        content: 'TODO内容の3番目',
-        status: 'Incomplete',
-      },
-      {
-        id: '8',
-        title: '4番目',
-        content: '差し込みIncomplete',
-        status: 'Incomplete',
-      },
-      {
-        id: '9',
-        title: '5番目のTODO',
-        content: 'TODO内容の4番目はDONETODO内容の4番目はDONETODO内容の4番目はDONE',
-        status: 'Done',
-      },
-      {
-        id: '10',
-        title: '6番目のTODO',
-        content: 'TODO内容の4番目はDONE',
-        status: 'Done',
-      },
     ],
   },
   reducers: {

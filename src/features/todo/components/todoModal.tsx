@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   Button,
   Dialog,
@@ -22,7 +22,15 @@ import { RiZzzFill } from 'react-icons/ri'
 const TodoModal = () => {
   const dispatch = useDispatch()
   const isOpen = useSelector((state: RootState) => state.modals.editModalIsOpen)
-  const optionStatuses: StatusValues[] = [
+  const editTodo = useSelector((state: RootState) => state.modals.todo)
+
+  const [todo, setTodo] = useState<Todo>(editTodo)
+
+  useEffect(() => {
+    setTodo(editTodo)
+  }, [editTodo])
+
+  const optionStatusesRef = useRef<StatusValues[]>([
     {
       status: 'Done',
       color: 'green',
@@ -38,22 +46,12 @@ const TodoModal = () => {
       color: 'gray',
       iconDom: <RiZzzFill className='w-6 h-6 text-white fill-current' />,
     },
-  ]
-  const editTodo = useSelector((state: RootState) => state.modals.todo)
+  ])
 
-  const [todo, setTodo] = useState<Todo>(editTodo)
-
-  const [selectedStatus, setSelectedStatus] = useState<StatusValues | undefined>(
-    optionStatuses.find((status) => status.status === editTodo.status),
-  )
+  const [optionStatus, setOptionStatus] = useState<StatusValues>()
 
   useEffect(() => {
-    setTodo(editTodo)
-  }, [editTodo])
-
-  // TODO:Dependencyエラー解決できず
-  useEffect(() => {
-    setSelectedStatus(optionStatuses.find((status) => status.status === todo.status))
+    setOptionStatus(optionStatusesRef.current.find((status) => status.status === todo.status))
   }, [todo])
 
   const handleCloseModalOnClick = (
@@ -107,14 +105,14 @@ const TodoModal = () => {
                 onChange={(status) => handlerTodoStatusOnChange(status as Status)}
                 selected={() => (
                   <div className='flex items-center'>
-                    <span className={`p-1 me-2 border rounded bg-${selectedStatus?.color}-500`}>
-                      {selectedStatus?.iconDom}
+                    <span className={`p-1 me-2 border rounded bg-${optionStatus?.color}-500`}>
+                      {optionStatus?.iconDom}
                     </span>
-                    <span>{selectedStatus?.status}</span>
+                    <span>{optionStatus?.status}</span>
                   </div>
                 )}
               >
-                {optionStatuses.map((status: any) => {
+                {optionStatusesRef.current.map((status: any) => {
                   return (
                     <Option key={status.status} value={status.status}>
                       <div className='flex items-center'>
