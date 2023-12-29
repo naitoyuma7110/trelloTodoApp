@@ -30,6 +30,7 @@ const TodoModal = () => {
     setTodo(editTodo)
   }, [editTodo])
 
+  // TODO:useRefを使用しないとuseEffectで依存性Warningが発生する理由を調べる
   const optionStatusesRef = useRef<StatusValues[]>([
     {
       status: 'Done',
@@ -51,7 +52,8 @@ const TodoModal = () => {
   const [optionStatus, setOptionStatus] = useState<StatusValues>()
 
   useEffect(() => {
-    setOptionStatus(optionStatusesRef.current.find((status) => status.status === todo.status))
+    const setOptionStatuses = optionStatusesRef.current.find((status) => status.status === todo.status)
+    setOptionStatuses && setOptionStatus(setOptionStatuses)
   }, [todo])
 
   const handleCloseModalOnClick = (
@@ -112,7 +114,7 @@ const TodoModal = () => {
                   </div>
                 )}
               >
-                {optionStatusesRef.current.map((status: any) => {
+                {optionStatusesRef.current.map((status) => {
                   return (
                     <Option key={status.status} value={status.status}>
                       <div className='flex items-center'>

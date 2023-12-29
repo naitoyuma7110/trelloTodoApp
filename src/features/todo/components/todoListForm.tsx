@@ -53,8 +53,7 @@ const TodoListForm = (): JSX.Element => {
       const updatedTodoList = newTodos.map((todo) => {
         return todo.id === String(active.id) ? { ...todo, status: (overColumn as Status) || (overId as Status) } : todo
       })
-      // setTodoItemList(updatedTodoList)
-      dispatch(setTodos(updatedTodoList))
+      setTodoItemList(updatedTodoList)
     }
 
     console.log(overColumn)
@@ -72,7 +71,6 @@ const TodoListForm = (): JSX.Element => {
       const newIndex = todoItemList.findIndex((v) => v.id === over.id)
 
       const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
-      // setTodoItemList(newTodos)
       dispatch(setTodos(newTodos))
     }
   }
