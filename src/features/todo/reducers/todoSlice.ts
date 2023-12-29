@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Todo } from '@/features/todo/types'
 
 export const todoSlice = createSlice({
   name: 'todos',
@@ -44,7 +45,14 @@ export const todoSlice = createSlice({
   },
   reducers: {
     setTodos: (state, action) => {
-      state.todos = action.payload
+      const newTodos: Todo[] = action.payload
+      // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
+      state.todos = newTodos.map((todo, index) => {
+        return {
+          ...todo,
+          id: (index + 1).toString(),
+        }
+      })
     },
     updateTodo: (state, action) => {
       const updateTodo = action.payload
@@ -58,7 +66,7 @@ export const todoSlice = createSlice({
     },
     removeTodoById: (state, action) => {
       const newTodos = state.todos.filter((todo) => todo.id !== action.payload)
-      // 番号を振りなおす
+      // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
       state.todos = newTodos.map((todo, index) => {
         return {
           ...todo,
