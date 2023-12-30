@@ -7,6 +7,8 @@ export default function Redux() {
   return (
     <Provider store={store}>
       <CounterChild />
+      <CounterChild />
+      <CounterChild />
     </Provider>
   )
 }
