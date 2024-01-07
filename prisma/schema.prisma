@@ -9,3 +9,20 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Todo {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  statusId  Int      
+  satus     Status   @relation(fields: [statusId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Status {
+  id        Int      @id @default(autoincrement())
+  label     String
+  todos     Todo[]
+}
+
+
