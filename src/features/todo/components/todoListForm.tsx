@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import { DndContext, useSensor, useSensors, DragEndEvent, closestCorners, MouseSensor } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { Todo, Status, Statuses } from '@/features/todo/types'
@@ -74,6 +75,14 @@ const TodoListForm = (): JSX.Element => {
       dispatch(setTodos(newTodos))
     }
   }
+
+  const fetchData = fetch('/api/hello')
+    .then((response) => response.json())
+    .then((res) => {
+      return res
+    })
+
+  console.log(fetchData)
 
   return (
     <>
