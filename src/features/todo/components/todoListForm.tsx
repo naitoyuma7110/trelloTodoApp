@@ -86,7 +86,7 @@ const TodoListForm = (): JSX.Element => {
 
   return (
     <>
-      <div className={`grid grid-cols-${Statuses.length} grid-cols-4`}>
+      <div className={`grid grid-cols-${Statuses.length + 1}`}>
         <div className='mx-2 px-4 py-2 rounded-lg bg-gray-200 '>
           <TodoColmun status={'All'} todoList={todoItemList} />
           <TodoForm />
