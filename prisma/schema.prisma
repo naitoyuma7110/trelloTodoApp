@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// next-authを使用した各種サードパーティ(Github,Googleなど)のアカウント情報に関連するテーブル
 model Account {
   id                 String  @id @default(cuid())
   userId             String
@@ -29,6 +30,7 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+// サードパーティのアクセストークン認証後、Session情報をDBで保持
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
