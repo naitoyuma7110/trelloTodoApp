@@ -1,15 +1,21 @@
 import TodoListForm from '@/features/todo/components/todoListForm'
 import { store } from '@/store/store'
 import { Provider } from 'react-redux'
+import Head from 'next/head'
 
 export default function Home() {
   return (
-    <Provider store={store}>
-      <div className='flex justify-center'>
-        <div className='m-5 w-auto'>
-          <TodoListForm />
+    <>
+      <Head>
+        <title>Trello風タスク管理</title>
+      </Head>
+      <Provider store={store}>
+        <div className='flex justify-center'>
+          <div className='m-5 w-auto'>
+            <TodoListForm />
+          </div>
         </div>
-      </div>
-    </Provider>
+      </Provider>
+    </>
   )
 }
