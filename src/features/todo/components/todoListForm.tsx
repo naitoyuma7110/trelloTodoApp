@@ -7,12 +7,16 @@ import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
 import TodoModal from '@/features/todo/components/todoModal'
 import { useSelector, useDispatch } from 'react-redux'
-import { setTodos } from '@/features/todo/reducers/todoSlice'
+import { fetchTodoAll, setTodos } from '@/features/todo/reducers/todoSlice'
 import { RootState } from '@/features/todo/types/index'
 
 const TodoListForm = (): JSX.Element => {
-  const dispatch = useDispatch()
+  // dispatchの型の不一致を強引に解決
+  // https://stackoverflow.com/questions/70143816/argument-of-type-asyncthunkactionany-void-is-not-assignable-to-paramete
+  const dispatch = useDispatch<any>()
+
   const todos = useSelector((state: RootState) => state.todos.todos)
+
   useEffect(() => {
     setTodoItemList(todos)
   }, [todos])
@@ -80,6 +84,13 @@ const TodoListForm = (): JSX.Element => {
   const gridClass = `grid grid-cols-${Statuses.length ? String(Statuses.length + 1) : '4'}`
   return (
     <>
+      <button
+        onClick={() => {
+          dispatch(fetchTodoAll())
+        }}
+      >
+        ボタン
+      </button>
       <div className={gridClass + ' grid grid-cols-4'}>
         <div className='mx-2 px-4 py-2 rounded-lg bg-gray-200 '>
           <TodoColmun status={'All'} todoList={todoItemList} />
