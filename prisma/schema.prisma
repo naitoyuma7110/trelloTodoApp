@@ -63,7 +63,7 @@ model Todo {
   title     String
   content   String
   statusId  Int      
-  satus     Status   @relation(fields: [statusId], references: [id])
+  status     Status   @relation(fields: [statusId], references: [id])
   createdAt DateTime @default(now())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
