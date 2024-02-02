@@ -3,9 +3,7 @@ import { Todo } from '@/features/todo/types'
 import { useSelector, useDispatch } from 'react-redux'
 import { addTodo } from '@/features/todo/reducers/todoSlice'
 
-type TodoFormProps = {}
-
-const TodoForm = (props: TodoFormProps): JSX.Element => {
+const TodoForm = () => {
   const dispatch = useDispatch()
 
   const [formTodo, setFormTodo] = useState<Todo>({
