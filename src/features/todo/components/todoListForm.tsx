@@ -76,17 +76,11 @@ const TodoListForm = (): JSX.Element => {
     }
   }
 
-  const fetchData = fetch('/api/hello')
-    .then((response) => response.json())
-    .then((res) => {
-      return res
-    })
-
-  console.log(fetchData)
-
+  // TODO:grid-colsを動的に設定できない
+  const gridClass = `grid grid-cols-${Statuses.length ? String(Statuses.length + 1) : '4'}`
   return (
     <>
-      <div className={`grid grid-cols-${Statuses.length + 1}`}>
+      <div className={gridClass + ' grid grid-cols-4'}>
         <div className='mx-2 px-4 py-2 rounded-lg bg-gray-200 '>
           <TodoColmun status={'All'} todoList={todoItemList} />
           <TodoForm />
