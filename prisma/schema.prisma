@@ -47,6 +47,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  todos         Todo[]
 }
 
 model VerificationToken {
@@ -64,6 +65,8 @@ model Todo {
   statusId  Int      
   satus     Status   @relation(fields: [statusId], references: [id])
   createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Status {

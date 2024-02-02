@@ -29,6 +29,7 @@ async function seed() {
       title: 'Task 1',
       content: 'Do something important',
       statusId: status1.id,
+      userId: process.env.SEEDER_USER_ID!,
     },
   })
 
@@ -37,6 +38,7 @@ async function seed() {
       title: 'Task 2',
       content: 'Complete the project',
       statusId: status2.id,
+      userId: process.env.SEEDER_USER_ID!,
     },
   })
 
