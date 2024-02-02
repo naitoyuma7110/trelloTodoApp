@@ -9,7 +9,7 @@ function NavList() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
-  // 認証ページであるかを判定
+  // 認証ページであるかを判定し認証ページにはログイン画面への遷移ボタンを表示しない
   const isAuthPage = router.pathname.startsWith('/auth/')
   return (
     <List className='p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1'>
