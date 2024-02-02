@@ -13,13 +13,19 @@ async function seed() {
   // サンプルStatusデータの追加
   const status1 = await prisma.status.create({
     data: {
-      label: 'InProgress',
+      label: 'Incomplete',
     },
   })
 
   const status2 = await prisma.status.create({
     data: {
-      label: 'Completed',
+      label: 'Progress',
+    },
+  })
+
+  const status3 = await prisma.status.create({
+    data: {
+      label: 'Done',
     },
   })
 
@@ -27,7 +33,7 @@ async function seed() {
   const todo1 = await prisma.todo.create({
     data: {
       title: 'Task 1',
-      content: 'Do something important',
+      content: 'Incomplete something important',
       statusId: status1.id,
       userId: process.env.SEEDER_USER_ID!,
     },
@@ -36,8 +42,17 @@ async function seed() {
   const todo2 = await prisma.todo.create({
     data: {
       title: 'Task 2',
-      content: 'Complete the project',
+      content: 'Progress the project',
       statusId: status2.id,
+      userId: process.env.SEEDER_USER_ID!,
+    },
+  })
+
+  const todo3 = await prisma.todo.create({
+    data: {
+      title: 'Task 3',
+      content: 'Done the project',
+      statusId: status3.id,
       userId: process.env.SEEDER_USER_ID!,
     },
   })
