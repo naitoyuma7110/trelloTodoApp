@@ -16,38 +16,38 @@ export const fetchTodoAll = createAsyncThunk('todos/fetchAll', async () => {
 const todoData: Todo[] = [
   {
     id: '1',
-    title: 'Reduxで取得する長いタイトルのTodo',
-    content: 'TODO内容はここに記載します。',
+    title: '1',
+    content: '1',
     status: 'Done',
   },
   {
     id: '2',
-    title: 'タイトル2',
-    content: 'TODO内容の二番目',
+    title: '2',
+    content: '2',
     status: 'Progress',
   },
   {
     id: '3',
-    title: 'タイトル3',
-    content: 'TODO内容の3番目',
+    title: '3',
+    content: '3',
     status: 'Incomplete',
   },
   {
     id: '4',
-    title: '4番目',
-    content: '差し込みIncomplete',
+    title: '4',
+    content: '4',
     status: 'Incomplete',
   },
   {
     id: '5',
-    title: '5番目のTODO',
-    content: 'TODO内容の4番目はDONETODO内容の4番目はDONETODO内容の4番目はDONE',
+    title: '5',
+    content: '5',
     status: 'Done',
   },
   {
     id: '6',
-    title: '6番目のTODO',
-    content: 'TODO内容の4番目はDONE',
+    title: '6',
+    content: '6',
     status: 'Done',
   },
 ]
@@ -61,6 +61,7 @@ export const todoSlice = createSlice({
     setTodos: (state, action) => {
       const newTodos: Todo[] = action.payload
       // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
+
       state.todos = newTodos.map((todo, index) => {
         return {
           ...todo,
@@ -75,11 +76,9 @@ export const todoSlice = createSlice({
     },
     addTodo: (state, action) => {
       const newTodo = action.payload
-
-      // newTodo.id = (state.todos.length + 1).toString()
-      // state.todos.push(newTodo)
-      const updatedTodos = [...state.todos, { ...newTodo, id: (state.todos.length + 2).toString() }]
-      state.todos = updatedTodos
+      newTodo.id = (state.todos.length + 1).toString()
+      const newTodos = [...state.todos, newTodo]
+      state.todos = newTodos
     },
     removeTodoById: (state, action) => {
       const newTodos = state.todos.filter((todo) => todo.id !== action.payload)

@@ -53,6 +53,7 @@ const TodoListForm = (): JSX.Element => {
       const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
       const newIndex = todoItemList.findIndex((v) => v.id === over.id)
 
+      // 配列の順序を入れ替える
       const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
       // active.idからtodoを特定しstatusをcolumnのid(status)に変更する
       const updatedTodoList = newTodos.map((todo) => {
@@ -60,7 +61,6 @@ const TodoListForm = (): JSX.Element => {
       })
       setTodoItemList(updatedTodoList)
     }
-
     console.log(overColumn)
   }
 
@@ -76,8 +76,9 @@ const TodoListForm = (): JSX.Element => {
       const newIndex = todoItemList.findIndex((v) => v.id === over.id)
 
       const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
-      dispatch(setTodos(newTodos))
+      setTodoItemList(newTodos)
     }
+    dispatch(setTodos(todoItemList))
   }
 
   // TODO:grid-colsを動的に設定できない
