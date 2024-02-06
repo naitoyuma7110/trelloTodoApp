@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { DndContext, useSensor, useSensors, DragEndEvent, closestCorners, MouseSensor } from '@dnd-kit/core'
-import { arrayMove } from '@dnd-kit/sortable'
+import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { Todo, Status, Statuses } from '@/features/todo/types'
 import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
@@ -9,9 +9,10 @@ import TodoModal from '@/features/todo/components/todoModal'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchTodoAll, setTodos } from '@/features/todo/reducers/todoSlice'
 import { RootState } from '@/features/todo/types/index'
+import { configureStore } from '@reduxjs/toolkit'
 
 const TodoListForm = (): JSX.Element => {
-  // dispatchの型の不一致を強引に解決
+  // dispatchの型の不一致を解決
   // https://stackoverflow.com/questions/70143816/argument-of-type-asyncthunkactionany-void-is-not-assignable-to-paramete
   const dispatch = useDispatch<any>()
 
@@ -22,6 +23,9 @@ const TodoListForm = (): JSX.Element => {
   }, [todos])
 
   const [todoItemList, setTodoItemList] = useState<Todo[]>(todos)
+  useEffect(() => {
+    console.log(todoItemList)
+  }, [todoItemList])
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }))
 
@@ -45,29 +49,43 @@ const TodoListForm = (): JSX.Element => {
     if (!over || active.id === over.id) {
       return null
     }
-    const overId = String(over.id)
-    const overColumn = findColumn(overId)
 
-    // Dragアイテムのidが別のアイテムidもしくはカラムidに対してoverされた場合
-    if (active.id !== over.id) {
-      const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
-      const newIndex = todoItemList.findIndex((v) => v.id === over.id)
+    console.log(over)
+    console.log(active.id)
+    console.log(over.id)
 
-      // 配列の順序を入れ替える
-      const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
-      // active.idからtodoを特定しstatusをcolumnのid(status)に変更する
-      const updatedTodoList = newTodos.map((todo) => {
-        return todo.id === String(active.id) ? { ...todo, status: (overColumn as Status) || (overId as Status) } : todo
-      })
-      setTodoItemList(updatedTodoList)
+    if (over) {
+      const overId = String(over.id)
+      const overColumn = findColumn(overId)
+      // const overColumn = over.data.current.sortable.containerId
+
+      // Dragアイテムのidが別のアイテムidもしくはカラムidに対してoverされた場合
+      if (active.id !== over.id) {
+        const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
+        const newIndex = todoItemList.findIndex((v) => v.id === over.id)
+
+        // 配列の順序を入れ替える
+        const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
+        // active.idからtodoを特定しstatusをcolumnのid(status)に変更する
+        const updatedTodoList = newTodos.map((todo) => {
+          return todo.id === String(active.id)
+            ? { ...todo, status: (overColumn as Status) || (overId as Status) }
+            : todo
+        })
+        setTodoItemList(updatedTodoList)
+      }
+      console.log(overColumn)
     }
-    console.log(overColumn)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
+    console.log('Dragend')
 
     if (!over || active.id === over.id) {
+      console.log(over)
+      console.log(active.id)
+
       return
     }
     // over先todoのidが異なればデータの入れ替えを行う

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { Todo } from '@/features/todo/types'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 // ReduxはPrimiseオブジェクトを解決できないため、外部APIの使用など非同期処理で取得する値はReduxの状態管理のサイクルに含む事ができない
 // そのためmiddlewareを介す必要となる
@@ -58,31 +59,35 @@ export const todoSlice = createSlice({
     todos: todoData,
   },
   reducers: {
-    setTodos: (state, action) => {
-      const newTodos: Todo[] = action.payload
+    setTodos: (state, action: PayloadAction<Todo[]>) => {
+      // const newTodos: Todo[] = action.payload
       // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
-
-      state.todos = newTodos.map((todo, index) => {
+      const newTodos = action.payload.map((todo, index) => {
         return {
           ...todo,
           id: (index + 1).toString(),
         }
       })
+      console.log('set')
+      state.todos = newTodos
     },
-    updateTodo: (state, action) => {
+    updateTodo: (state, action: PayloadAction<Todo>) => {
       const updateTodo = action.payload
       const updatedTodos = state.todos.map((todo) => (todo.id === updateTodo.id ? { ...todo, ...updateTodo } : todo))
+      console.log('set')
       state.todos = updatedTodos
     },
-    addTodo: (state, action) => {
+    addTodo: (state, action: PayloadAction<Todo>) => {
       const newTodo = action.payload
       newTodo.id = (state.todos.length + 1).toString()
       const newTodos = [...state.todos, newTodo]
+      console.log('set')
       state.todos = newTodos
     },
-    removeTodoById: (state, action) => {
+    removeTodoById: (state, action: PayloadAction<Todo['id']>) => {
       const newTodos = state.todos.filter((todo) => todo.id !== action.payload)
       // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
+      console.log('set')
       state.todos = newTodos.map((todo, index) => {
         return {
           ...todo,
