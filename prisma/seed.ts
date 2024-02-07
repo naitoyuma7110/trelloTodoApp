@@ -30,6 +30,7 @@ async function seed() {
   })
 
   // サンプルTodoデータの追加
+  // userIdに対応するuserは既に作成済とする
   const todo1 = await prisma.todo.create({
     data: {
       title: 'Task 1',
