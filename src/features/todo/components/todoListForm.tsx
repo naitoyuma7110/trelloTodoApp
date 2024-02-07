@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-
+import { arrayMove } from '@dnd-kit/sortable'
 import { DndContext, useSensor, useSensors, DragEndEvent, closestCorners, MouseSensor } from '@dnd-kit/core'
-import { arrayMove, SortableContext } from '@dnd-kit/sortable'
 import { Todo, Status, Statuses } from '@/features/todo/types'
 import TodoColmun from '@/features/todo/components/todoColmun'
 import TodoForm from '@/features/todo/components/todoForm'
@@ -9,7 +8,6 @@ import TodoModal from '@/features/todo/components/todoModal'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchTodoAll, setTodos } from '@/features/todo/reducers/todoSlice'
 import { RootState } from '@/features/todo/types/index'
-import { configureStore } from '@reduxjs/toolkit'
 
 const TodoListForm = (): JSX.Element => {
   // dispatchの型の不一致を解決
@@ -23,14 +21,12 @@ const TodoListForm = (): JSX.Element => {
   }, [todos])
 
   const [todoItemList, setTodoItemList] = useState<Todo[]>(todos)
-  useEffect(() => {
-    console.log(todoItemList)
-  }, [todoItemList])
 
   const sensors = useSensors(useSensor(MouseSensor, { activationConstraint: { distance: 5 } }))
 
   const findColumn = (id: string | null) => {
     // この関数を使用するhandlerで取得したidが、カラムのidとドラッグアイテムのidの両方の場合を想定する
+
     if (!id) {
       return null
     }
@@ -49,20 +45,21 @@ const TodoListForm = (): JSX.Element => {
     if (!over || active.id === over.id) {
       return null
     }
-
-    console.log(over)
-    console.log(active.id)
-    console.log(over.id)
-
     if (over) {
       const overId = String(over.id)
+      const activeId = String(active.id)
       const overColumn = findColumn(overId)
-      // const overColumn = over.data.current.sortable.containerId
+      const activeColmun = findColumn(activeId)
+
+      console.log(active)
+
+      console.log(activeColmun)
 
       // Dragアイテムのidが別のアイテムidもしくはカラムidに対してoverされた場合
       if (active.id !== over.id) {
         const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
         const newIndex = todoItemList.findIndex((v) => v.id === over.id)
+        console.log(newIndex)
 
         // 配列の順序を入れ替える
         const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
@@ -74,28 +71,11 @@ const TodoListForm = (): JSX.Element => {
         })
         setTodoItemList(updatedTodoList)
       }
-      console.log(overColumn)
     }
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
-    console.log('Dragend')
-
-    if (!over || active.id === over.id) {
-      console.log(over)
-      console.log(active.id)
-
-      return
-    }
-    // over先todoのidが異なればデータの入れ替えを行う
-    if (active.id !== over.id) {
-      const oldIndex = todoItemList.findIndex((v) => v.id === active.id)
-      const newIndex = todoItemList.findIndex((v) => v.id === over.id)
-
-      const newTodos = arrayMove(todoItemList, oldIndex, newIndex)
-      setTodoItemList(newTodos)
-    }
     dispatch(setTodos(todoItemList))
   }
 
