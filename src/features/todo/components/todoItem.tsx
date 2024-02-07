@@ -41,7 +41,7 @@ const TodoItem = (props: TodoItemProps) => {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    // transition,
   }
 
   switch (props.todo.status) {
