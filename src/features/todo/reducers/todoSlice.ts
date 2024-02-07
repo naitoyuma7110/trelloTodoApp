@@ -25,31 +25,31 @@ const todoData: Todo[] = [
     id: '2',
     title: '2',
     content: '2',
-    status: 'Progress',
+    status: 'Done',
   },
   {
     id: '3',
     title: '3',
     content: '3',
-    status: 'Incomplete',
+    status: 'Done',
   },
   {
     id: '4',
     title: '4',
     content: '4',
-    status: 'Incomplete',
+    status: 'Progress',
   },
   {
     id: '5',
     title: '5',
     content: '5',
-    status: 'Done',
+    status: 'Incomplete',
   },
   {
     id: '6',
     title: '6',
     content: '6',
-    status: 'Done',
+    status: 'Incomplete',
   },
 ]
 
@@ -68,26 +68,26 @@ export const todoSlice = createSlice({
           id: (index + 1).toString(),
         }
       })
-      console.log('set')
+      console.log('reducer')
       state.todos = newTodos
     },
     updateTodo: (state, action: PayloadAction<Todo>) => {
       const updateTodo = action.payload
       const updatedTodos = state.todos.map((todo) => (todo.id === updateTodo.id ? { ...todo, ...updateTodo } : todo))
-      console.log('set')
+      console.log('reducer')
       state.todos = updatedTodos
     },
     addTodo: (state, action: PayloadAction<Todo>) => {
       const newTodo = action.payload
       newTodo.id = (state.todos.length + 1).toString()
       const newTodos = [...state.todos, newTodo]
-      console.log('set')
+      console.log('reducer')
       state.todos = newTodos
     },
     removeTodoById: (state, action: PayloadAction<Todo['id']>) => {
       const newTodos = state.todos.filter((todo) => todo.id !== action.payload)
       // 番号を振りなおす(AddTodoでは配列数+1のidが割り振られるため欠番があると重複する)
-      console.log('set')
+      console.log('reducer')
       state.todos = newTodos.map((todo, index) => {
         return {
           ...todo,
