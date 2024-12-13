@@ -41,7 +41,6 @@ const TodoItem = (props: TodoItemProps) => {
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    // transition,
   }
 
   switch (props.todo.status) {
@@ -66,7 +65,7 @@ const TodoItem = (props: TodoItemProps) => {
     <div ref={setNodeRef} {...attributes} {...listeners} style={props.isSortable ? style : { cursor: 'default' }}>
       <div
         id={props.todo.id}
-        className='flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md hover:bg-gray-300'
+        className='flex w-full border border-gray-300 overflow-hidden bg-white rounded-lg shadow-md select-none'
         onClick={handleTodoOnClick}
       >
         <div className={`flex items-center justify-center w-12 bg-${statusValues.color}-500`}>

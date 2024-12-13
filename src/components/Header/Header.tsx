@@ -41,7 +41,7 @@ const Header = () => {
       <Navbar className='max-w-full px-4 py-2 lg:px-8 lg:py-4'>
         <div className='flex items-center justify-between'>
           <Typography as='a' href='/' variant='h4' className='mr-4 cursor-pointer py-1.5 lg:ml-2 text-blue-gray-800'>
-            Trello Like
+            TODO APP
           </Typography>
           <div className='hidden lg:block'>
             <NavList />
