@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Trello風タスク管理</title>
+        <title>TODO APP</title>
       </Head>
       <Provider store={store}>
         <div className='flex justify-center'>

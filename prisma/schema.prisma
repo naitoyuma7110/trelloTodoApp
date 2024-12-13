@@ -48,6 +48,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   todos         Todo[]
+  status        Status[]
 }
 
 model VerificationToken {
@@ -72,6 +73,8 @@ model Todo {
 model Status {
   id        Int      @id @default(autoincrement())
   label     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   todos     Todo[]
 }
 

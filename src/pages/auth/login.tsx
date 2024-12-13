@@ -1,9 +1,8 @@
 import { getProviders, signIn } from 'next-auth/react'
 import { InferGetServerSidePropsType } from 'next'
 import { FaGithubAlt } from 'react-icons/fa'
-import { Button, Typography } from '@material-tailwind/react'
+import { Button, Typography, Tooltip } from '@material-tailwind/react'
 
-// getServerSidePropsで取得した値を使用するコンポーネントはSSRによりサーバーサイドで動的に生成される
 const login = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   // authHandlerに渡したoption.providersを使用する
   console.log(providers)
@@ -13,20 +12,25 @@ const login = ({ providers }: InferGetServerSidePropsType<typeof getServerSidePr
         Object.values(providers).map((provider) => {
           return (
             <div key={provider.name}>
-              <Button
-                className='bg-black flex items-center gap-2'
-                onClick={() =>
-                  // signIn()で"api/auth/{provider}"へ、どのProviderを使用するかid("github","google"など)を指定しリクエスト
-                  // https://next-auth.js.org/configuration/pages
-                  signIn(provider.id, {
-                    // 認証サーバへのリクエスト後の遷移先
-                    callbackUrl: '/',
-                  })
-                }
+              <Tooltip
+                content='閉鎖！'
+                className='border text-gray-600 border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10'
               >
-                <FaGithubAlt className='w-10 h-10 text-white' />
-                <Typography>Login with Github</Typography>
-              </Button>
+                <Button
+                  className='bg-black flex items-center gap-2 opacity-50'
+                  // onClick={() =>
+                  //   // signIn()で"api/auth/{provider}"へ、どのProviderを使用するかid("github","google"など)を指定しリクエスト
+                  //   // https://next-auth.js.org/configuration/pages
+                  //   signIn(provider.id, {
+                  //     // 認証サーバへのリクエスト後の遷移先
+                  //     callbackUrl: '/',
+                  //   })
+                  // }
+                >
+                  <FaGithubAlt className='w-10 h-10 text-white' />
+                  <Typography>Login with Github</Typography>
+                </Button>
+              </Tooltip>
             </div>
           )
         })}

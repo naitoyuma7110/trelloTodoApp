@@ -14,18 +14,21 @@ async function seed() {
   const status1 = await prisma.status.create({
     data: {
       label: 'Incomplete',
+      userId: process.env.SEEDER_USER_ID!,
     },
   })
 
   const status2 = await prisma.status.create({
     data: {
       label: 'Progress',
+      userId: process.env.SEEDER_USER_ID!,
     },
   })
 
   const status3 = await prisma.status.create({
     data: {
       label: 'Done',
+      userId: process.env.SEEDER_USER_ID!,
     },
   })
 

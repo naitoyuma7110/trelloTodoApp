@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Navbar, Typography, Button, List, ListItem } from '@material-tailwind/react'
+import { Navbar, Typography, Button, List, Tooltip } from '@material-tailwind/react'
 import { IoIosLogIn } from 'react-icons/io'
 import { CgLogOut } from 'react-icons/cg'
 import { signIn, signOut, useSession } from 'next-auth/react'
@@ -14,15 +14,26 @@ function NavList() {
   return (
     <List className='p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1'>
       <Button className='flex items-center gap-2 bg-white mx-2 border border-gray-400' variant='outlined'>
-        <Typography className='text-sm text-center'>
-          <Link href='/'>HOME</Link>
-        </Typography>
+        <Link href='/'>
+          <Typography className='text-sm text-center'>HOME</Typography>
+        </Link>
       </Button>
       {status !== 'loading' && !isAuthPage && !session && (
-        <Button className='flex items-center gap-2 mx-2' color='blue' onClick={() => signIn()}>
-          <IoIosLogIn className='w-6 h-6' />
-          <Typography className='text-sm text-center'>LogIn</Typography>
-        </Button>
+        <Tooltip
+          content='閉鎖！'
+          className='border text-gray-600 border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10'
+        >
+          <Button
+            className='flex items-center gap-2 mx-2 opacity-40'
+            color='blue'
+            onClick={() => {
+              signIn()
+            }}
+          >
+            <IoIosLogIn className='w-6 h-6' />
+            <Typography className='text-sm text-center'>LogIn</Typography>
+          </Button>
+        </Tooltip>
       )}
       {status !== 'loading' && session && (
         <Button className='flex items-center gap-2 bg-gray-600 mx-2' onClick={() => signOut()}>
@@ -34,7 +45,7 @@ function NavList() {
   )
 }
 
-// SessionProviderでネストされた要素ではnext-authが提供するuseSession()によりサーバ側で渡されたセッショントークンを取得する事が可能
+// SessionProviderでネストされた要素ではnext-authが提供するuseSessionによりサーバ側で渡されたセッショントークンを取得する事が可能
 const Header = () => {
   return (
     <>
