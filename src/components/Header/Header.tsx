@@ -27,6 +27,7 @@ function NavList() {
             className='flex items-center gap-2 mx-2 opacity-40'
             color='blue'
             onClick={() => {
+              return
               signIn()
             }}
           >
